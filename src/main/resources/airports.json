@@ -1,0 +1,500 @@
+[
+  {
+    "code": "PRG",
+    "name": "Václav Havel Airport Prague",
+    "connections": [
+      {
+        "code": "BRE",
+        "distance": {
+          "value": 500.63,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "LHR",
+        "distance": {
+          "value": 1044.93,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "RSW",
+        "distance": {
+          "value": 8184.96,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "LHR",
+    "name": "Heathrow Airport",
+    "connections": [
+      {
+        "code": "PRG",
+        "distance": {
+          "value": 1044.93,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "PEK",
+        "distance": {
+          "value": 8156.63,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "BRE",
+    "name": "Bremen Airport",
+    "connections": [
+      {
+        "code": "WAW",
+        "distance": {
+          "value": 827.53,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "JFK",
+    "name": "John F. Kennedy International Airport",
+    "connections": [
+      {
+        "code": "RSW",
+        "distance": {
+          "value": 1076.52,
+          "unit": "mi"
+        }
+      },
+      {
+        "code": "PEK",
+        "distance": {
+          "value": 10981.67,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "BFI",
+        "distance": {
+          "value": 2414.55,
+          "unit": "mi"
+        }
+      }
+    ]
+  },
+  {
+    "code": "RSW",
+    "name": "Southwest Florida International Airport",
+    "connections": [
+      {
+        "code": "PRG",
+        "distance": {
+          "value": 8184.96,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "WAW",
+        "distance": {
+          "value": 5293.15,
+          "unit": "mi"
+        }
+      },
+      {
+        "code": "JFK",
+        "distance": {
+          "value": 1076.52,
+          "unit": "mi"
+        }
+      }
+    ]
+  },
+  {
+    "code": "WAW",
+    "name": "Warsaw Chopin Airport",
+    "connections": [
+      {
+        "code": "BRE",
+        "distance": {
+          "value": 827.53,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "RSW",
+        "distance": {
+          "value": 5293.15,
+          "unit": "mi"
+        }
+      },
+      {
+        "code": "BFI",
+        "distance": {
+          "value": 8396.55,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DME",
+        "distance": {
+          "value": 1166.9,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "DUB",
+    "name": "Dublin Airport",
+    "connections": [
+      {
+        "code": "LHR",
+        "distance": {
+          "value": 279.24,
+          "unit": "mi"
+        }
+      },
+      {
+        "code": "KEF",
+        "distance": {
+          "value": 1499.44,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "PEK",
+    "name": "Beijing Capital International Airport",
+    "connections": [
+      {
+        "code": "JFK",
+        "distance": {
+          "value": 10981.67,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "OKA",
+        "distance": {
+          "value": 1851.41,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "CKG",
+        "distance": {
+          "value": 1464.84,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "OKA",
+    "name": "Naha Airport",
+    "connections": [
+      {
+        "code": "PEK",
+        "distance": {
+          "value": 1851.41,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "HND",
+        "distance": {
+          "value": 1553.67,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "BFI",
+    "name": "Boeing Field/King County International Airport",
+    "connections": [
+      {
+        "code": "HND",
+        "distance": {
+          "value": 4790.84,
+          "unit": "mi"
+        }
+      }
+    ]
+  },
+  {
+    "code": "FNJ",
+    "name": "Pyongyang Sunan International Airport",
+    "connections": [
+      {
+        "code": "PEK",
+        "distance": {
+          "value": 783.06,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "CKG",
+    "name": "Chongqing Jiangbei International Airport",
+    "connections": [
+      {
+        "code": "FNJ",
+        "distance": {
+          "value": 2032.71,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "AWP",
+        "distance": {
+          "value": 6503.89,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "HND",
+    "name": "Haneda Airport",
+    "connections": [
+      {
+        "code": "BFI",
+        "distance": {
+          "value": 4790.84,
+          "unit": "mi"
+        }
+      },
+      {
+        "code": "OKA",
+        "distance": {
+          "value": 1553.67,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DME",
+        "distance": {
+          "value": 7502.07,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "AWP",
+        "distance": {
+          "value": 6237.99,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "DME",
+    "name": "Domodedovo International Airport",
+    "connections": [
+      {
+        "code": "WAW",
+        "distance": {
+          "value": 1166.9,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "HND",
+        "distance": {
+          "value": 7502.07,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "EVX",
+        "distance": {
+          "value": 2565.34,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "KEF",
+    "name": "Keflavík International Airport",
+    "connections": [
+      {
+        "code": "DUB",
+        "distance": {
+          "value": 1499.44,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DEL",
+        "distance": {
+          "value": 7631.91,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "AWP",
+        "distance": {
+          "value": 14966.36,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "CAI",
+        "distance": {
+          "value": 5300.37,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "AWP",
+    "name": "Austral Downs Airport",
+    "connections": [
+      {
+        "code": "HND",
+        "distance": {
+          "value": 6237.99,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "CKG",
+        "distance": {
+          "value": 6503.89,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "EVX",
+        "distance": {
+          "value": 15043.41,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DEL",
+        "distance": {
+          "value": 8493.96,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DME",
+        "distance": {
+          "value": 12489.43,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "DEL",
+    "name": "Indira Gandhi International Airport",
+    "connections": [
+      {
+        "code": "AWP",
+        "distance": {
+          "value": 8493.96,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "EVX",
+        "distance": {
+          "value": 6662.77,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "KEF",
+        "distance": {
+          "value": 7631.91,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "EVX",
+    "name": "Évreux-Fauville Air Base",
+    "connections": [
+      {
+        "code": "DME",
+        "distance": {
+          "value": 2565.34,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "AWP",
+        "distance": {
+          "value": 15043.41,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DEL",
+        "distance": {
+          "value": 6662.77,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "PAK",
+        "distance": {
+          "value": 5835.67,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "CAI",
+    "name": "Cairo International Airport",
+    "connections": [
+      {
+        "code": "PAK",
+        "distance": {
+          "value": 3127.3,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "DEL",
+        "distance": {
+          "value": 4403.07,
+          "unit": "km"
+        }
+      }
+    ]
+  },
+  {
+    "code": "PAK",
+    "name": "Port Allen Airport",
+    "connections": [
+      {
+        "code": "EVX",
+        "distance": {
+          "value": 5835.67,
+          "unit": "km"
+        }
+      },
+      {
+        "code": "CAI",
+        "distance": {
+          "value": 3127.3,
+          "unit": "km"
+        }
+      }
+    ]
+  }
+]
