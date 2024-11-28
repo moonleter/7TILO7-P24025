@@ -19,7 +19,7 @@ public class Dijkstra {
             for (Map.Entry<String, Distance> adjacencyPair :
                     currentNode.getConnections().entrySet()) {
                 Node adjacentNode = graph.getNodes().stream().filter((n) -> Objects.equals(n.getCode(), adjacencyPair.getKey())).findFirst().orElseThrow(RuntimeException::new);
-                Double edgeWeight = adjacencyPair.getValue().getDistance();
+                Double edgeWeight = adjacencyPair.getValue().getValue();
                 if (!visitedNodes.contains(adjacentNode)) {
                     updateDistanceAndPath(adjacentNode, edgeWeight, currentNode);
                     unvisitedNodes.add(adjacentNode);

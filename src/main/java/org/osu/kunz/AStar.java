@@ -35,7 +35,7 @@ public class AStar {
                     continue;
                 }
 
-                double tentativeGScore = gScore.getOrDefault(current, Double.MAX_VALUE) + adjacencyPair.getValue().getDistance();
+                double tentativeGScore = gScore.getOrDefault(current, Double.MAX_VALUE) + adjacencyPair.getValue().getValue();
                 if (!openSet.contains(neighbor)) {
                     openSet.add(neighbor);
                 } else if (tentativeGScore >= gScore.getOrDefault(neighbor, Double.MAX_VALUE)) {

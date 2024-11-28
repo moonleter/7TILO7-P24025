@@ -59,8 +59,8 @@ public class Node {
         for (Node n : nodes) {
             for (Connection c : n.getTempConnections()) {
                 if (Objects.equals(c.getDistance().getUnit(), "mi")) {
-                    c.getDistance().setDistance(
-                            BigDecimal.valueOf(c.getDistance().getDistance() * 1.609344)     // convert to km
+                    c.getDistance().setValue(
+                            BigDecimal.valueOf(c.getDistance().getValue() * 1.609344)     // convert to km
                                     .setScale(2, RoundingMode.HALF_UP)          // round up to 2 decimal places
                                     .doubleValue()
                     );

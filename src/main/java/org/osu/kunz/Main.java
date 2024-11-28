@@ -38,12 +38,12 @@ public class Main {
         // Naha Airport -> Evreux Airport
         calculateAndPrintShortestGraphPath(graph, nodes, "OKA", "EVX");
 
-        System.out.println("A* algorithm:");
-        AStar.calculateAndPrintAStarRoute(graph, nodes, "PRG", "DEL");
-        AStar.calculateAndPrintAStarRoute(graph, nodes, "BRE", "FNJ");
-        AStar.calculateAndPrintAStarRoute(graph, nodes, "JFK", "CAI");
-        AStar.calculateAndPrintAStarRoute(graph, nodes, "DUB", "DME");
-        AStar.calculateAndPrintAStarRoute(graph, nodes, "OKA", "EVX");
+//        System.out.println("A* algorithm:");
+//        AStar.calculateAndPrintAStarRoute(graph, nodes, "PRG", "DEL");
+//        AStar.calculateAndPrintAStarRoute(graph, nodes, "BRE", "FNJ");
+//        AStar.calculateAndPrintAStarRoute(graph, nodes, "JFK", "CAI");
+//        AStar.calculateAndPrintAStarRoute(graph, nodes, "DUB", "DME");
+//        AStar.calculateAndPrintAStarRoute(graph, nodes, "OKA", "EVX");
 
     }
 }
