@@ -7,7 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.osu.kunz.Graph.calculateAndPrintShortestGraphPath;
+import static org.osu.kunz.Graph.calculateAndPrintAStarPath;
+import static org.osu.kunz.Graph.calculateAndPrintShortestDijkstraPath;
 import static org.osu.kunz.Node.initializeConnections;
 
 public class Main {
@@ -23,27 +24,24 @@ public class Main {
 
         initializeConnections(graph.getNodes());
 
-        // Prague - Ruzyne International Airport (PRG) -> Indira Gandhi International Airport (DEL)
-        calculateAndPrintShortestGraphPath(graph, nodes, "PRG", "DEL");
+        calculateAndPrintShortestDijkstraPath(graph, nodes, "PRG", "DEL");
 
-        // Bremen Airport -> Sunan International Airport
-        calculateAndPrintShortestGraphPath(graph, nodes, "BRE", "FNJ");
+        calculateAndPrintShortestDijkstraPath(graph, nodes, "BRE", "FNJ");
 
-        // John F Kennedy International Airport -> Cairo International Airport
-        calculateAndPrintShortestGraphPath(graph, nodes, "JFK", "CAI");
+        calculateAndPrintShortestDijkstraPath(graph, nodes, "JFK", "CAI");
 
-        // Dublin Airport -> Domodedovo Airport
-        calculateAndPrintShortestGraphPath(graph, nodes, "DUB", "DME");
+        calculateAndPrintShortestDijkstraPath(graph, nodes, "DUB", "DME");
 
-        // Naha Airport -> Evreux Airport
-        calculateAndPrintShortestGraphPath(graph, nodes, "OKA", "EVX");
+        calculateAndPrintShortestDijkstraPath(graph, nodes, "OKA", "EVX");
 
-//        System.out.println("A* algorithm:");
-//        AStar.calculateAndPrintAStarRoute(graph, nodes, "PRG", "DEL");
-//        AStar.calculateAndPrintAStarRoute(graph, nodes, "BRE", "FNJ");
-//        AStar.calculateAndPrintAStarRoute(graph, nodes, "JFK", "CAI");
-//        AStar.calculateAndPrintAStarRoute(graph, nodes, "DUB", "DME");
-//        AStar.calculateAndPrintAStarRoute(graph, nodes, "OKA", "EVX");
+
+        System.out.println("_________________________________________________________________________________________");
+        System.out.println("A* algorithm:");
+        calculateAndPrintAStarPath(graph, nodes, "PRG", "DEL");
+        calculateAndPrintAStarPath(graph, nodes, "BRE", "FNJ");
+        calculateAndPrintAStarPath(graph, nodes, "JFK", "CAI");
+        calculateAndPrintAStarPath(graph, nodes, "DUB", "DME");
+        calculateAndPrintAStarPath(graph, nodes, "OKA", "EVX");
 
     }
 }

@@ -1,89 +1,103 @@
 package org.osu.kunz;
 
+import org.osu.kunz.exception.PathNotFoundException;
+
 import java.util.*;
 
 public class AStar {
-    //TODO fix:
 
-    public static void calculateShortestPathFromSource(Graph graph, Node source, Node destination) {
+    public static void findShortestPath(Graph graph, Node source, String endAirport) {
         source.setDistance(0D);
 
-        Set<Node> closedSet = new HashSet<>();
-        Set<Node> openSet = new HashSet<>();
-        openSet.add(source);
+        Set<Node> visitedNodes = new HashSet<>();
+        Set<Node> unvisitedNodes = new HashSet<>();
 
-        Map<Node, Node> cameFrom = new HashMap<>();
-        Map<Node, Double> gScore = new HashMap<>();
-        gScore.put(source, 0D);
+        unvisitedNodes.add(source);
 
-        Map<Node, Double> fScore = new HashMap<>();
-        fScore.put(source, heuristic(source, destination));
+        Map<String, Double> gScore = initializeScoreMap(graph.getNodes());
+        Map<String, Double> fScore = initializeScoreMap(graph.getNodes());
+        Map<String, String> previousNodeMap = new HashMap<>();
 
-        while (!openSet.isEmpty()) {
-            Node current = getLowestFScoreNode(openSet, fScore);
-            if (current.equals(destination)) {
-                reconstructPath(cameFrom, current);
+        gScore.put(source.getCode(), 0.0);
+        fScore.put(source.getCode(), haversineHeuristic(source.getCode(), endAirport, graph.getNodes()));
+
+        while (!unvisitedNodes.isEmpty()) {
+            Node currentAirportNode = findNodeWithLowestFScore(unvisitedNodes, fScore);
+            unvisitedNodes.remove(currentAirportNode);
+            String currentAirport = currentAirportNode.getCode();
+
+            if (currentAirport.equals(endAirport)) {
+                reconstructPath(previousNodeMap, graph.getNodes(), source.getCode(), endAirport);
                 return;
             }
 
-            openSet.remove(current);
-            closedSet.add(current);
+            for (Map.Entry<String, Distance> adjacencyPair : currentAirportNode.getConnections().entrySet()) {
+                Node adjacentNode = graph.getNodes().stream().filter(n -> Objects.equals(n.getCode(), adjacencyPair.getKey())).findFirst().orElseThrow(RuntimeException::new);
+                double tentativeGScore = gScore.get(currentAirportNode.getCode()) + adjacencyPair.getValue().getValue();
 
-            for (Map.Entry<String, Distance> adjacencyPair : current.getConnections().entrySet()) {
-                Node neighbor = graph.getNodes().stream().filter((n) -> Objects.equals(n.getCode(), adjacencyPair.getKey())).findFirst().orElseThrow(RuntimeException::new);
-                if (closedSet.contains(neighbor)) {
-                    continue;
+                if (tentativeGScore < gScore.get(adjacentNode.getCode())) {
+                    previousNodeMap.put(adjacentNode.getCode(), currentAirportNode.getCode());
+                    gScore.put(adjacentNode.getCode(), tentativeGScore);
+                    fScore.put(adjacentNode.getCode(), tentativeGScore + haversineHeuristic(adjacentNode.getCode(), endAirport, graph.getNodes()));
+
+                    adjacentNode.setDistance(fScore.get(adjacentNode.getCode()));
+                    unvisitedNodes.add(adjacentNode);
                 }
-
-                double tentativeGScore = gScore.getOrDefault(current, Double.MAX_VALUE) + adjacencyPair.getValue().getValue();
-                if (!openSet.contains(neighbor)) {
-                    openSet.add(neighbor);
-                } else if (tentativeGScore >= gScore.getOrDefault(neighbor, Double.MAX_VALUE)) {
-                    continue;
-                }
-
-                cameFrom.put(neighbor, current);
-                gScore.put(neighbor, tentativeGScore);
-                fScore.put(neighbor, tentativeGScore + heuristic(neighbor, destination));
             }
+            visitedNodes.add(currentAirportNode);
         }
+        throw new PathNotFoundException(String.format("Path from %s to %s not found", source.getCode(), endAirport));
     }
 
-    private static Node getLowestFScoreNode(Set<Node> openSet, Map<Node, Double> fScore) {
+    private static Map<String, Double> initializeScoreMap(Set<Node> nodes) {
+        Map<String, Double> scoreMap = new HashMap<>();
+        for (Node node : nodes) {
+            scoreMap.put(node.getCode(), Double.MAX_VALUE);
+        }
+        return scoreMap;
+    }
+
+    private static Node findNodeWithLowestFScore(Set<Node> unvisitedNodes, Map<String, Double> fScore) {
         Node lowestFScoreNode = null;
         double lowestFScore = Double.MAX_VALUE;
-        for (Node node : openSet) {
-            double score = fScore.getOrDefault(node, Double.MAX_VALUE);
-            if (score < lowestFScore) {
-                lowestFScore = score;
+        for (Node node : unvisitedNodes) {
+            double nodeFScore = fScore.get(node.getCode());
+            if (nodeFScore < lowestFScore) {
+                lowestFScore = nodeFScore;
                 lowestFScoreNode = node;
             }
         }
         return lowestFScoreNode;
     }
 
-    private static double heuristic(Node node, Node destination) {
-        // Euclidean distance as the heuristic
-        double dx = node.getX() - destination.getX();
-        double dy = node.getY() - destination.getY();
-        return Math.sqrt(dx * dx + dy * dy);
-    }
+   private static double haversineHeuristic(String fromCode, String toCode, Set<Node> nodes) {
+    Node fromNode = nodes.stream().filter(n -> n.getCode().equals(fromCode)).findFirst().orElseThrow(RuntimeException::new);
+    Node toNode = nodes.stream().filter(n -> n.getCode().equals(toCode)).findFirst().orElseThrow(RuntimeException::new);
 
-    private static void reconstructPath(Map<Node, Node> cameFrom, Node current) {
-        LinkedList<Node> totalPath = new LinkedList<>();
-        totalPath.add(current);
-        while (cameFrom.containsKey(current)) {
-            current = cameFrom.get(current);
-            totalPath.addFirst(current);
+    final int R = 6371; // Radius of the Earth in kilometers
+    double lat1 = fromNode.getX();
+    double lon1 = fromNode.getY();
+    double lat2 = toNode.getX();
+    double lon2 = toNode.getY();
+    double latDistance = Math.toRadians(lat2 - lat1);
+    double lonDistance = Math.toRadians(lon2 - lon1);
+    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+            + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+            * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in kilometers
+}
+
+    private static void reconstructPath(Map<String, String> cameFrom, Set<Node> nodes, String startAirport, String endAirport) {
+        List<Node> totalPath = new ArrayList<>();
+        String currentAirport = endAirport;
+        while (cameFrom.containsKey(currentAirport)) {
+            final String code = currentAirport;
+            totalPath.add(nodes.stream().filter(n -> n.getCode().equals(code)).findFirst().orElseThrow(RuntimeException::new));
+            currentAirport = cameFrom.get(currentAirport);
         }
+        totalPath.add(nodes.stream().filter(n -> n.getCode().equals(startAirport)).findFirst().orElseThrow(RuntimeException::new));
+        Collections.reverse(totalPath);
         Node.printFlight(totalPath);
-    }
-
-    public static void calculateAndPrintAStarRoute(Graph graph, List<Node> nodes, String sourceCode, String destinationCode) {
-        nodes = Graph.resetNodeAttributes(nodes);
-        Node source = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), sourceCode)).findFirst().orElseThrow(RuntimeException::new));
-        Node destination = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), destinationCode)).findFirst().orElseThrow(RuntimeException::new));
-
-        calculateShortestPathFromSource(graph, source, destination);
     }
 }

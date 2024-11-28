@@ -7,7 +7,6 @@ import java.util.*;
 
 import static org.osu.kunz.Node.printFlight;
 
-
 @Getter
 @Setter
 public class Graph {
@@ -18,7 +17,7 @@ public class Graph {
         nodes.add(node);
     }
 
-    public static void calculateAndPrintShortestGraphPath(Graph graph, List<Node> nodes, String sourceCode, String destinationCode) {
+    public static void calculateAndPrintShortestDijkstraPath(Graph graph, List<Node> nodes, String sourceCode, String destinationCode) {
         nodes = resetNodeAttributes(nodes);
         Node source = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), sourceCode)).findFirst().orElseThrow(RuntimeException::new));
         Node destinationNode = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), destinationCode)).findFirst().orElseThrow(RuntimeException::new));
@@ -29,6 +28,20 @@ public class Graph {
         paths.add(destinationNode);
 
         printFlight(paths);
+    }
+
+    public static void calculateAndPrintAStarPath(Graph graph, List<Node> nodes, String startCode, String endCode) {
+        nodes = resetNodeAttributes(nodes);
+        Node source = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), startCode)).findFirst().orElseThrow(RuntimeException::new));
+        Node destinationNode = Objects.requireNonNull(nodes.stream().filter(n -> Objects.equals(n.getCode(), endCode)).findFirst().orElseThrow(RuntimeException::new));
+
+        AStar.findShortestPath(graph, source, endCode);
+
+        List<Node> paths = destinationNode.getShortestPath();
+        if (!paths.isEmpty()) {
+            paths.add(destinationNode);
+            printFlight(paths);
+        }
     }
 
     static List<Node> resetNodeAttributes(List<Node> nodes) {
