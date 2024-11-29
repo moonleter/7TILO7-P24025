@@ -73,20 +73,26 @@ public class Node {
         double totalDistance = 0;
 
         for (int i = 1; i < paths.size(); i++) {
-            double distanceBetween = BigDecimal.valueOf(paths.get(i).getDistance() - paths.get(i - 1).getDistance())
-                    .setScale(2, RoundingMode.HALF_UP).doubleValue();
-            totalDistance = BigDecimal.valueOf(totalDistance + distanceBetween)
-                    .setScale(2, RoundingMode.HALF_UP).doubleValue();
+            Distance connectionDistance = paths.get(i - 1).getConnections().get(paths.get(i).getCode());
+
+            if (connectionDistance == null) {
+                throw new RuntimeException("No direct connection between " +
+                        paths.get(i - 1).getCode() + " and " + paths.get(i).getCode());
+            }
+
+            double segmentDistance = connectionDistance.getValue();
+            totalDistance += segmentDistance;
+
             output.append(" -> ")
                     .append(paths.get(i).getCode())
                     .append("(")
-                    .append(totalDistance)
+                    .append(String.format("%.2f", totalDistance))
                     .append(" km, ")
-                    .append(distanceBetween)
+                    .append(String.format("%.2f", segmentDistance))
                     .append(" km)");
         }
 
-        output.append("\nTotal Distance: ").append(totalDistance).append(" km");
+        output.append("\nTotal Distance: ").append(String.format("%.2f", totalDistance)).append(" km");
         System.out.println(output.toString());
         System.out.println("");
     }

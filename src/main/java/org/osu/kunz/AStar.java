@@ -19,7 +19,7 @@ public class AStar {
         Map<String, String> previousNodeMap = new HashMap<>();
 
         gScore.put(source.getCode(), 0.0);
-        fScore.put(source.getCode(), manhattanHeuristic(source, endAirport, graph.getNodes()));
+        fScore.put(source.getCode(), averageConnectionHeuristic(source, endAirport, graph.getNodes()));
 
         while (!unvisitedNodes.isEmpty()) {
             Node currentAirportNode = findNodeWithLowestFScore(unvisitedNodes, fScore);
@@ -33,12 +33,12 @@ public class AStar {
 
             for (Map.Entry<String, Distance> adjacencyPair : currentAirportNode.getConnections().entrySet()) {
                 Node adjacentNode = graph.getNodes().stream().filter(n -> Objects.equals(n.getCode(), adjacencyPair.getKey())).findFirst().orElseThrow(RuntimeException::new);
-                double tentativeGScore = gScore.get(currentAirportNode.getCode()) + adjacencyPair.getValue().getValue();
+                double proposedGScore = gScore.get(currentAirportNode.getCode()) + adjacencyPair.getValue().getValue();
 
-                if (tentativeGScore < gScore.get(adjacentNode.getCode())) {
+                if (proposedGScore < gScore.get(adjacentNode.getCode())) {
                     previousNodeMap.put(adjacentNode.getCode(), currentAirportNode.getCode());
-                    gScore.put(adjacentNode.getCode(), tentativeGScore);
-                    fScore.put(adjacentNode.getCode(), tentativeGScore + manhattanHeuristic(adjacentNode, endAirport, graph.getNodes()));
+                    gScore.put(adjacentNode.getCode(), proposedGScore);
+                    fScore.put(adjacentNode.getCode(), proposedGScore + averageConnectionHeuristic(adjacentNode, endAirport, graph.getNodes()));
 
                     adjacentNode.setDistance(fScore.get(adjacentNode.getCode()));
                     unvisitedNodes.add(adjacentNode);
@@ -70,22 +70,45 @@ public class AStar {
         return lowestFScoreNode;
     }
 
+    private static double averageConnectionHeuristic(Node fromNode, String toCode, Set<Node> nodes) {
+        Node toNode = nodes.stream()
+                .filter(n -> n.getCode().equals(toCode))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
 
-    private static double manhattanHeuristic(Node fromNode, String toCode, Set<Node> nodes) {
-        Node toNode = nodes.stream().filter(n -> n.getCode().equals(toCode)).findFirst().orElseThrow(RuntimeException::new);
-        return Math.abs(fromNode.getConnections().size() - toNode.getConnections().size());
+        double avgFromDistance = fromNode.getConnections().values().stream()
+                .mapToDouble(Distance::getValue)
+                .average()
+                .orElse(0.0);
+
+        double avgToDistance = toNode.getConnections().values().stream()
+                .mapToDouble(Distance::getValue)
+                .average()
+                .orElse(0.0);
+
+        return Math.abs(avgFromDistance - avgToDistance);
     }
 
     private static void reconstructPath(Map<String, String> cameFrom, Set<Node> nodes, String startAirport, String endAirport) {
         List<Node> totalPath = new ArrayList<>();
         String currentAirport = endAirport;
+
         while (cameFrom.containsKey(currentAirport)) {
             final String code = currentAirport;
-            totalPath.add(nodes.stream().filter(n -> n.getCode().equals(code)).findFirst().orElseThrow(RuntimeException::new));
+            totalPath.add(nodes.stream()
+                    .filter(n -> n.getCode().equals(code))
+                    .findFirst()
+                    .orElseThrow(RuntimeException::new));
             currentAirport = cameFrom.get(currentAirport);
         }
-        totalPath.add(nodes.stream().filter(n -> n.getCode().equals(startAirport)).findFirst().orElseThrow(RuntimeException::new));
+
+        totalPath.add(nodes.stream()
+                .filter(n -> n.getCode().equals(startAirport))
+                .findFirst()
+                .orElseThrow(RuntimeException::new));
+
         Collections.reverse(totalPath);
+
         Node.printFlight(totalPath);
     }
 }
