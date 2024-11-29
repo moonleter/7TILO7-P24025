@@ -19,7 +19,7 @@ public class AStar {
         Map<String, String> previousNodeMap = new HashMap<>();
 
         gScore.put(source.getCode(), 0.0);
-        fScore.put(source.getCode(), haversineHeuristic(source.getCode(), endAirport, graph.getNodes()));
+        fScore.put(source.getCode(), manhattanHeuristic(source, endAirport, graph.getNodes()));
 
         while (!unvisitedNodes.isEmpty()) {
             Node currentAirportNode = findNodeWithLowestFScore(unvisitedNodes, fScore);
@@ -38,7 +38,7 @@ public class AStar {
                 if (tentativeGScore < gScore.get(adjacentNode.getCode())) {
                     previousNodeMap.put(adjacentNode.getCode(), currentAirportNode.getCode());
                     gScore.put(adjacentNode.getCode(), tentativeGScore);
-                    fScore.put(adjacentNode.getCode(), tentativeGScore + haversineHeuristic(adjacentNode.getCode(), endAirport, graph.getNodes()));
+                    fScore.put(adjacentNode.getCode(), tentativeGScore + manhattanHeuristic(adjacentNode, endAirport, graph.getNodes()));
 
                     adjacentNode.setDistance(fScore.get(adjacentNode.getCode()));
                     unvisitedNodes.add(adjacentNode);
@@ -70,23 +70,11 @@ public class AStar {
         return lowestFScoreNode;
     }
 
-   private static double haversineHeuristic(String fromCode, String toCode, Set<Node> nodes) {
-    Node fromNode = nodes.stream().filter(n -> n.getCode().equals(fromCode)).findFirst().orElseThrow(RuntimeException::new);
-    Node toNode = nodes.stream().filter(n -> n.getCode().equals(toCode)).findFirst().orElseThrow(RuntimeException::new);
 
-    final int R = 6371; // Radius of the Earth in kilometers
-    double lat1 = fromNode.getX();
-    double lon1 = fromNode.getY();
-    double lat2 = toNode.getX();
-    double lon2 = toNode.getY();
-    double latDistance = Math.toRadians(lat2 - lat1);
-    double lonDistance = Math.toRadians(lon2 - lon1);
-    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-            + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-            * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in kilometers
-}
+    private static double manhattanHeuristic(Node fromNode, String toCode, Set<Node> nodes) {
+        Node toNode = nodes.stream().filter(n -> n.getCode().equals(toCode)).findFirst().orElseThrow(RuntimeException::new);
+        return Math.abs(fromNode.getConnections().size() - toNode.getConnections().size());
+    }
 
     private static void reconstructPath(Map<String, String> cameFrom, Set<Node> nodes, String startAirport, String endAirport) {
         List<Node> totalPath = new ArrayList<>();

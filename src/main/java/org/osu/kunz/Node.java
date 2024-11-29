@@ -26,11 +26,6 @@ public class Node {
     @JsonProperty("connections")
     private Connection[] tempConnections;
 
-    @JsonProperty("x")
-    private double x;
-
-    @JsonProperty("y")
-    private double y;
 
     @JsonIgnore
     Map<String, Distance> connections = new HashMap<>();
